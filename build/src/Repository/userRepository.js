@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
 const promises_1 = __importDefault(require("fs/promises"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 class UserRepository {
     static getAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -28,14 +29,16 @@ class UserRepository {
             }
         });
     }
-    static savePersonalData(email, password, userName, id) {
+    static savePersonalData(email, password, userName, role, id) {
         return __awaiter(this, void 0, void 0, function* () {
             const allData = yield this.getAll();
+            const haswPassword = yield bcrypt_1.default.hash(password, 12);
             const adminObject = {
                 id,
                 email,
-                password,
+                password: haswPassword,
                 userName,
+                role,
             };
             allData.push(adminObject);
             const jsonData = JSON.stringify(allData, null, 2);

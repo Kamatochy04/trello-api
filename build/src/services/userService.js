@@ -15,8 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = exports.login = void 0;
 const userRepository_1 = require("../Repository/userRepository");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send('Hello world');
+    try {
+        const { password, email } = req.body;
+        const user = yield userRepository_1.UserRepository.getByEmail(email);
+        if (!user) {
+            res.send({ message: 'User not found' });
+            return;
+        }
+        const isCorrectPassword = bcrypt_1.default.compare(password, user.password);
+        if (!isCorrectPassword) {
+            res.send({ message: 'Password is not correct' });
+            return;
+        }
+        const sesretKey = process.env.JWT_SECRET_KEY || 'SECRET_KEY';
+        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, sesretKey, { expiresIn: '2d' });
+        res.send({ token });
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 exports.login = login;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -36,8 +55,9 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         const id = new Date().getSeconds();
-        const token = jsonwebtoken_1.default.sign({ id, role }, 'secret_key', { expiresIn: '2d' });
-        yield userRepository_1.UserRepository.savePersonalData(email, password, userName, id);
+        const sesretKey = process.env.JWT_SECRET_KEY || 'SECRET_KEY';
+        const token = jsonwebtoken_1.default.sign({ id, role }, sesretKey, { expiresIn: '2d' });
+        yield userRepository_1.UserRepository.savePersonalData(email, password, userName, role, id);
         res.status(200).send({ token });
     }
     catch (error) {

@@ -6,13 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkRole = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const checkRole = (req, res, next) => {
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
+    const token = authHeader === null || authHeader === void 0 ? void 0 : authHeader.split(' ')[1];
     if (!token) {
         res.status(401).json({ message: 'Unauthorized' });
         return;
     }
     try {
-        const decoded = jsonwebtoken_1.default.verify(token, 'secret_key');
+        const secretKey = process.env.JWT_SECRET_KEY || 'SECRET_KEY';
+        const decoded = jsonwebtoken_1.default.verify(token, secretKey);
+        req.user = {
+            id: decoded.id,
+        };
         if (decoded.role === 'ADMIN') {
             next();
         }
@@ -21,7 +26,7 @@ const checkRole = (req, res, next) => {
         }
     }
     catch (err) {
-        console.log(err);
+        console.error('Authentication error:', err);
         res.status(401).json({ message: 'Invalid token' });
     }
 };

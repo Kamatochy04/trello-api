@@ -6,6 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const userService_1 = require("../services/userService");
 const router = express_1.default.Router();
-router.post("/register", userService_1.register);
-router.post("/login", userService_1.login);
+router.post('/register', userService_1.register);
+router.post('/login', userService_1.login);
 exports.default = router;
