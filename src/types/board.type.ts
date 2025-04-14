@@ -6,6 +6,7 @@ export type BoardType = {
   color: string;
   description?: string;
   createdAt?: string;
+  id: number;
 };
 
 export interface BoardRequest extends Request, AuthenticatedRequest {

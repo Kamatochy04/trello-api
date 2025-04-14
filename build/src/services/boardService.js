@@ -10,23 +10,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAll = exports.getOne = exports.updata = exports.deleted = exports.create = void 0;
-const boardRepository_1 = require("../Repository/boardRepository");
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const { name, color, description } = req.body;
+        // const { name, color, description } = req.body;
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
         if (!userId) {
             res.send({ message: 'Not found user id' });
             return;
         }
-        const today = new Date();
-        const createdAt = [
-            String(today.getMonth() + 1).padStart(2, '0'), // Месяцы 0-11
-            String(today.getDate()).padStart(2, '0'),
-            String(today.getFullYear()).slice(-2), // Последние 2 цифры года
-        ].join('.');
-        boardRepository_1.BoardRepository.addBoard(userId, name, color, description, createdAt);
+        // const today = new Date();
+        // const createdAt = [
+        //   String(today.getMonth() + 1).padStart(2, '0'),
+        //   String(today.getDate()).padStart(2, '0'),
+        //   String(today.getFullYear()).slice(-2),
+        // ].join('.');
+        // BoardRepository.addBoard(userId, name, color, description, createdAt);
     }
     catch (err) {
         console.log(err);
@@ -35,7 +34,9 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.create = create;
 const deleted = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send('deleted');
+    // BoardRepository.getById(57);
+    res.send({ message: 'Hello' });
+    return;
 });
 exports.deleted = deleted;
 const updata = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

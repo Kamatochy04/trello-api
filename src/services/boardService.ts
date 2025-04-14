@@ -1,34 +1,24 @@
 import { Request, Response } from 'express';
-import { BoardRepository } from '../Repository/boardRepository';
+
 import { BoardRequest } from '../types/board.type';
+import { BoardRepository } from '../Repository/boardRepository';
+
+const boardRepository = new BoardRepository();
 
 export const create = async (req: BoardRequest, res: Response) => {
-  try {
-    const { name, color, description } = req.body;
-    const userId = req.user?.id;
-
-    if (!userId) {
-      res.send({ message: 'Not found user id' });
-      return;
-    }
-
-    const today = new Date();
-    const createdAt = [
-      String(today.getMonth() + 1).padStart(2, '0'),
-      String(today.getDate()).padStart(2, '0'),
-      String(today.getFullYear()).slice(-2),
-    ].join('.');
-
-    BoardRepository.addBoard(userId, name, color, description, createdAt);
-  } catch (err) {
-    console.log(err);
-  }
-
-  res.send('create');
+  boardRepository.create({
+    id: 23,
+    name: 'Name',
+    color: 'red',
+    description: 'Lorem',
+    createdAt: 'now',
+  });
+  res.send({ message: 'Hello 2' });
+  return;
 };
 
-export const deleted = async (req: Request, res: Response) => {
-  res.send('deleted');
+export const delet = async (req: Request, res: Response) => {
+  boardRepository.delete(12);
 };
 
 export const updata = async (req: Request, res: Response) => {
@@ -36,9 +26,12 @@ export const updata = async (req: Request, res: Response) => {
 };
 
 export const getOne = async (req: Request, res: Response) => {
-  res.send('getOne');
+  const data = await boardRepository.getOne(12);
+  console.log(data);
+  res.send({ message: 'Ok' });
 };
 
 export const getAll = async (req: Request, res: Response) => {
-  res.send('getAll');
+  await boardRepository.getAll();
+  res.send({ message: 'Ok' });
 };
