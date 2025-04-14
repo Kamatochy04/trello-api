@@ -1,26 +1,15 @@
-[
-  {
-    "id": 3,
-    "email": "mail@mDasdasdasADAl.ru",
-    "password": "12321ASDAS3",
-    "userName": "Andrey"
-  },
-  {
-    "id": 57,
-    "email": "mail@mDsasdasdasADAl.ru",
-    "password": "12321ASDAS3",
-    "userName": "Andrey"
-  },
-  {
-    "id": 24,
-    "email": "mail@mDsasdasdasADAsl.ru",
-    "password": "12321ASDAS3",
-    "userName": "Andrey"
-  },
-  {
-    "id": 43,
-    "email": "mail@222.ru",
-    "password": "12321ASDAS3",
-    "userName": "Andrey"
-  }
-]
+{
+  "id": 57,
+  "email": "mail@s222.rwu",
+  "password": "$2b$12$bgLcgnH2ipURZriFL2waeOzR3g.DPhYXpdrykWD8R66gFAgMwgny6",
+  "userName": "Andrey",
+  "role": "ADMIN",
+  "board": [
+    {
+      "name": "Name",
+      "color": "red",
+      "description": "description",
+      "createdAt": "23.12.24"
+    }
+  ]
+}

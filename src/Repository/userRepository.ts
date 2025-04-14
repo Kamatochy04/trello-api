@@ -1,15 +1,6 @@
 import fs from 'fs/promises';
-// import bcrypt from 'bcrypt';
-// import path from 'path';
-
-// const ADMIN_FILE_PATH = path.join(__dirname, 'admin.json');
-
-type UserType = {
-  id: number;
-  userName: string;
-  email: string;
-  password: string;
-};
+import bcrypt from 'bcrypt';
+import { UserType } from '../types/user.type';
 
 export class UserRepository {
   private static async getAll(): Promise<UserType[]> {
@@ -27,15 +18,19 @@ export class UserRepository {
     email: string,
     password: string,
     userName: string,
+    role: string,
     id: number
   ): Promise<void> {
     const allData = await this.getAll();
 
+    const haswPassword = await bcrypt.hash(password, 12);
+
     const adminObject = {
       id,
       email,
-      password,
+      password: haswPassword,
       userName,
+      role,
     };
 
     allData.push(adminObject);
