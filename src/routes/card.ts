@@ -1,19 +1,12 @@
-import express from "express";
-
-import {
-  create,
-  deleted,
-  updata,
-  getOne,
-  getAll,
-} from "../services/cardService";
+import express from 'express';
+import { getAll, getOne, deleted, create, updata } from '../services/boardService';
 
 const router = express.Router();
 
-router.post("/create", create);
-router.delete("/delet", deleted);
-router.put("/updata", updata);
-router.get("/getAll", getAll);
-router.get("/get/:id", getOne);
+router.post('/create', create);
+router.get('/getAll', getAll);
+router.get('/getOne/:id', getOne);
+router.put('/updata/:id', updata);
+router.delete('/deleted/:id', deleted);
 
 export default router;
