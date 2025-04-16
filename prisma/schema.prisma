@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id  Int  @id  @default(autoincrement())
+  user_name  String 
+  email     String  
+  hash_password String 
+
+  board Board[]
+  card Card[]
+
+  role  Role @default(USER)
+}
+
+model Board {
+  id    Int @id @default(autoincrement())
+  name  String 
+  color   String 
+  description String
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int 
+
+  create_at DateTime @default(now())
+}
+
+model Card {
+  id  Int @id @default(autoincrement())
+  name  String 
+  description String 
+  create_at DateTime @default(now())
+  estimate  Int
+  status Status @default(WAITING)
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int 
+
+  labels Label[]
+
+  due_date DateTime
+}
+
+model Label {
+  id  Int @id @default(autoincrement())
+  name  String
+  card  Card @relation(fields: [card_id], references: [id])
+  card_id Int
+}
+
+enum Status {
+  WAITING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum Role {
+  USER
+  ADMIN
+}
